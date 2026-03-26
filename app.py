@@ -23,4 +23,27 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+# Home page linking
+@app.route('/')
+def home():
+    return render_template('home.html')
 
+# Products page linking
+@app.route('/products')
+def products():
+    all_products = query_db('SELECT * FROM products')
+    return render_template('products.html', products=all_products)
+
+# Product detail page linking
+@app.route('/product/<int:product_id>')
+def product_detail(product_id):
+    product = query_db('SELECT * FROM products WHERE product_id = ?', [product_id], one=True)
+    return render_template('product_detail.html', product=product)
+
+# Custom 404 page that handles errors
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+if __name__ == '__main__':
+    app.run(debug=True)
