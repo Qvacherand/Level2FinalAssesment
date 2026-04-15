@@ -2,10 +2,9 @@
 from flask import Flask, render_template, request, g
 import sqlite3
 
-
-#Creating the app and linking it to the right folder
+#identifying variable database and assinging value
 app = Flask(__name__)
-DATABASE = '/Users/quentin/Documents/GitHub/Level2FinalAssesment/databases/fairway.db'
+DATABASE = '/Users/quentin/Documents/GitHub/Level2FinalAssesment/Files/database/fairway.db'
 
 
 #Opens a connection and checks if there is allready one
