@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fairway Finds</title>
-
+        <!-- linking stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
@@ -15,9 +16,30 @@
     </header>
 
     <main>
-        <h1>Welcome to Fairway Finds</h1>
-        <p>Your one stop shop for golf equipment</p>
-        <a href="/products">Shop Now</a>
+    <!-- about box -->
+        <div class="about">
+            <h1>Welcome to Fairway Finds</h1>
+        </div>
+    <!-- info box -->
+        <div class="info">
+            <p>Free shipping on orders over $100</p>
+            <p>Easy returns within 30 days</p>
+            <p>contact@fairwayfinds.co.nz</p>
+        </div>
+
+        <!-- featured products -->
+        <div class="featured">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
+                <p>{{ product['name'] }}</p>
+                <p>${{ product['price'] }}</p>
+                <a href="/product/{{ product['product_id'] }}">View Product</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a href="/products" class="btn">View All Products</a>
     </main>
 
     <footer>
