@@ -3,9 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ product['name'] }} - Fairway Finds</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    
+    <header>
+        <nav>
+            <a href="/">Fairway Finds</a>
+            <a href="/products">Products</a>
+        </nav>
+    </header>
+<!--link products to database -->
+    <main>
+        <div class="product-detail">
+            <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
+            <h1>{{ product['name'] }}</h1>
+            <p class="price">${{ product['price'] }}</p>
+            <p class="keywords">{{ product['keywords'] }}</p>
+            <a href="/products" class="btn">Back to Products</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>Fairway Finds 2025</p>
+    </footer>
 </body>
 </html>
