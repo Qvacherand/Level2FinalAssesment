@@ -39,12 +39,37 @@ def home():
     return render_template('home.html', products=featured)
 
 
-# Products page linking
+# Products page with search and filter
 @app.route('/products')
 def products():
-    all_products = query_db('SELECT * FROM products')
-    return render_template('products.html', products=all_products)
-
+    search = request.args.get('search', '')
+    selected_category = request.args.get('category', '')
+    
+    # Build query based on search and filter
+    if search and selected_category:
+        all_products = query_db('''
+            SELECT * FROM products 
+            WHERE keywords LIKE ? AND category_id = ?
+        ''', ['%' + search + '%', selected_category])
+    elif search:
+        all_products = query_db('''
+            SELECT * FROM products 
+            WHERE keywords LIKE ?
+        ''', ['%' + search + '%'])
+    elif selected_category:
+        all_products = query_db('''
+            SELECT * FROM products 
+            WHERE category_id = ?
+        ''', [selected_category])
+    else:
+        all_products = query_db('SELECT * FROM products')
+    
+    categories = query_db('SELECT * FROM categories')
+    return render_template('products.html', 
+                         products=all_products, 
+                         categories=categories,
+                         search=search,
+                         selected_category=selected_category)
 
 # Product detail page linking
 @app.route('/product/<int:product_id>')
