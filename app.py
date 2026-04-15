@@ -36,7 +36,8 @@ def close_connection(exception):
 # Home page linking
 @app.route('/')
 def home():
-    return render_template('home.html')
+    featured = query_db('SELECT * FROM products LIMIT 3')
+    return render_template('home.html', products=featured)
 
 
 # Products page linking
