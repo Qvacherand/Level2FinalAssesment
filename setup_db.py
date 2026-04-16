@@ -1,7 +1,7 @@
 import sqlite3
 
 # Connect to the database folder and creates the file since it doesnt exist before
-conn = sqlite3.connect('/Users/quentin/Documents/GitHub/Level2FinalAssesment/Files/database/fairway.db')
+conn = sqlite3.connect('/Users/quentin/Documents/GitHub/Level2FinalAssesment/database/fairway.db')
 cursor = conn.cursor()
 
 # Creates Categories table

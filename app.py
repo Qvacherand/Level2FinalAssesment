@@ -4,7 +4,7 @@ import sqlite3
 
 #identifying variable database and assinging value
 app = Flask(__name__)
-DATABASE = '/Users/quentin/Documents/GitHub/Level2FinalAssesment/Files/database/fairway.db'
+DATABASE = '/Users/quentin/Documents/GitHub/Level2FinalAssesment/database/fairway.db'
 
 
 #Opens a connection and checks if there is allready one
