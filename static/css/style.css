@@ -1,0 +1,218 @@
+/* CSS Variables */
+:root {
+    --primary: #2d7a2d;
+    --secondary: #ffffff;
+    --accent: #f4a020;
+    --dark: #1a1a1a;
+    --light: #f5f5f5;
+    --font-heading: Georgia, serif;
+    --font-body: Arial, sans-serif;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+/* Nav */
+header {
+    background-color: var(--primary);
+    padding: 16px 32px;
+}
+
+nav {
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    color: var(--secondary);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-size: 18px;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+/* Main */
+main {
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: var(--font-heading);
+    color: var(--primary);
+    margin-bottom: 24px;
+}
+
+/* About section */
+.about {
+    background-color: var(--primary);
+    color: var(--secondary);
+    padding: 48px 32px;
+    margin-bottom: 24px;
+    border-radius: 8px;
+}
+
+/* Info section */
+.info {
+    background-color: var(--secondary);
+    padding: 24px 32px;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.info p {
+    margin-bottom: 8px;
+}
+
+/* Product grid */
+.featured, .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+/* Product card */
+.product-card {
+    background-color: var(--secondary);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.product-card p {
+    margin-bottom: 8px;
+}
+
+.product-card a {
+    display: inline-block;
+    background-color: var(--primary);
+    color: var(--secondary);
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 8px;
+}
+
+.product-card a:hover {
+    background-color: var(--accent);
+}
+
+/* Button */
+.btn {
+    display: inline-block;
+    background-color: var(--primary);
+    color: var(--secondary);
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 16px;
+}
+
+.btn:hover {
+    background-color: var(--accent);
+}
+
+/* Search form */
+form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+form input, form select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    flex: 1;
+}
+
+form button {
+    background-color: var(--primary);
+    color: var(--secondary);
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: var(--accent);
+}
+
+/* Product detail */
+.product-detail {
+    background-color: var(--secondary);
+    padding: 32px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    max-width: 600px;
+}
+
+.product-detail img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.product-detail h1 {
+    margin-bottom: 12px;
+}
+
+.price {
+    font-size: 24px;
+    color: var(--primary);
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary);
+    color: var(--secondary);
+    text-align: center;
+    padding: 24px;
+    margin-top: 48px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .featured, .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .featured, .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
