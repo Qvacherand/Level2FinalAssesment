@@ -1,10 +1,12 @@
-#Imports such as flask and sqlite
+#Imports like flask and sqlite
 from flask import Flask, render_template, request, g
 import sqlite3
+from flask import Flask, render_template, request, g, session, redirect
 
 #identifying variable database and assinging value
 app = Flask(__name__)
 DATABASE = '/Users/quentin/Documents/GitHub/Level2FinalAssesment/database/fairway.db'
+app.secret_key = 'fairwayfinds2025'
 
 
 #Opens a connection and checks if there is allready one
