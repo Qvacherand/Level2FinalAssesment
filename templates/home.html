@@ -12,6 +12,7 @@
         <nav>
             <a href="/">Fairway Finds</a>
             <a href="/products">Products</a>
+            <a href="/about">About</a>
         </nav>
     </header>
 
@@ -22,24 +23,12 @@
         </div>
     <!-- info box -->
         <div class="info">
-            <p>Free shipping on orders over $100</p>
-            <p>Easy returns within 30 days</p>
-            <p>contact@fairwayfinds.co.nz</p>
+            
         </div>
 
         <!-- featured products -->
-        <div class="featured">
-            {% for product in products %}
-            <div class="product-card">
-                <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
-                <p>{{ product['name'] }}</p>
-                <p>${{ product['price'] }}</p>
-                <a href="/product/{{ product['product_id'] }}">View Product</a>
-            </div>
-            {% endfor %}
-        </div>
+        
 
-        <a href="/products" class="btn">View All Products</a>
     </main>
 
     <footer>
