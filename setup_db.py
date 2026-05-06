@@ -39,8 +39,10 @@ cursor.execute('''
         price DECIMAL(10,2) NOT NULL CHECK(price > 0),
         keywords VARCHAR(255) NOT NULL,
         image VARCHAR(255),
+        featured INTEGER DEFAULT 0,
         category_id INTEGER,
-        FOREIGN KEY (category_id) REFERENCES categories(category_id)
+        brand_id INTEGER,
+        FOREIGN KEY (category_id) REFERENCES categories(category_id),
         FOREIGN KEY (brand_id) REFERENCES brands(brand_id)
     )
 ''')
