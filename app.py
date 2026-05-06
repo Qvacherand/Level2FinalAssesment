@@ -43,9 +43,14 @@ def home():
 # Products page with search and filter
 @app.route('/products')
 def products():
-    search = request.args.get('search', '')
-    selected_category = request.args.get('category', '')
+    all_products = query_db('SELECT * FROM products')
+    return render_template('products.html', products=all_products)
     
+    # About page
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
     # Build query based on search and filter
     if search and selected_category:
         all_products = query_db('''
