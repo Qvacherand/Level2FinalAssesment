@@ -84,6 +84,8 @@ cursor.executemany('''
     ('Golf Cap', 40, 'cap hat clothing accessories', 'cap.jpg', 7, 7),
     ('Iron Set 3-SW', 1200, 'set iron wedge clubs', 'iron_set.jpg', 9, 5),
 ])
+
+print("Database created successfully!")
 #closes program
 conn.commit()
 conn.close()

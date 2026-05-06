@@ -75,7 +75,13 @@ def products():
 # Product detail page linking
 @app.route('/product/<int:product_id>')
 def product_detail(product_id):
-    product = query_db('SELECT * FROM products WHERE product_id = ?', [product_id], one=True)
+    product = query_db('''
+        SELECT products.*, brands.name as brand_name, categories.name as category_name
+        FROM products
+        JOIN brands ON products.brand_id = brands.brand_id
+        JOIN categories ON products.category_id = categories.category_id
+        WHERE products.product_id = ?
+    ''', [product_id], one=True)
     return render_template('product_detail.html', product=product)
 
 

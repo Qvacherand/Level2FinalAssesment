@@ -17,20 +17,34 @@
     </header>
 
     <main>
-    <!-- about box -->
+        <!-- about box -->
         <div class="about">
             <h1>Welcome to Fairway Finds</h1>
+            <p>New Zealand's online golf equipment store. Whether you're a beginner or a seasoned golfer we have everything you need.</p>
         </div>
-    <!-- info box -->
+    
+        <!-- info box -->
         <div class="info">
-            
+            <p>Free shipping on orders over $100</p>
+            <p>Easy returns within 30 days</p>
+            <p>contact@fairwayfinds.co.nz</p>
         </div>
-
+    
         <!-- featured products -->
-        
-
+        <h2>Featured Products</h2>
+        <div class="featured">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
+                <p>{{ product['name'] }}</p>
+                <p>${{ product['price'] }}</p>
+                <a href="/product/{{ product['product_id'] }}">View Product</a>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <a href="/products" class="btn">View All Products</a>
     </main>
-
     <footer>
         <p>Fairway Finds 2025</p>
     </footer>
