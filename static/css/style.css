@@ -53,7 +53,7 @@ main {
 
 h1 {
     font-family: var(--font-heading);
-    color: var(--primary);
+    color: var(--secondary);
     margin-bottom: 24px;
 }
 
