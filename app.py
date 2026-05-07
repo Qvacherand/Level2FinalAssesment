@@ -1,9 +1,11 @@
 #Imports like flask and sqlite
 from flask import Flask, render_template, request, g
 import sqlite3
+from flask import Flask, render_template, request, g, session, redirect, jsonify
 
 #identifying variable database and assinging value
 app = Flask(__name__)
+app.secret_key = 'fairwayfinds2025'
 DATABASE = '/Users/quentin/Documents/GitHub/Level2FinalAssesment/database/fairway.db'
 
 
@@ -103,3 +105,51 @@ def internal_error(e):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+
+# View cart
+@app.route('/cart')
+def cart():
+    cart = session.get('cart', [])
+    total = sum(item['price'] * item['quantity'] for item in cart)
+    return render_template('cart.html', cart=cart, total=total)
+
+# Add to cart - no page refresh
+@app.route('/cart/add/<int:product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    product = query_db('SELECT * FROM products WHERE product_id = ?', [product_id], one=True)
+    cart = session.get('cart', [])
+    for item in cart:
+        if item['product_id'] == product_id:
+            item['quantity'] += 1
+            session.modified = True
+            return jsonify({'success': True, 'message': 'Quantity updated'})
+    cart.append({
+        'product_id': product_id,
+        'name': product['name'],
+        'price': product['price'],
+        'quantity': 1
+    })
+    session['cart'] = cart
+    return jsonify({'success': True, 'message': 'Item added to cart'})
+
+# Remove from cart - no page refresh
+@app.route('/cart/remove/<int:product_id>', methods=['POST'])
+def remove_from_cart(product_id):
+    cart = session.get('cart', [])
+    session['cart'] = [item for item in cart if item['product_id'] != product_id]
+    return jsonify({'success': True, 'message': 'Item removed'})
+
+# Update quantity - no page refresh
+@app.route('/cart/update/<int:product_id>', methods=['POST'])
+def update_quantity(product_id):
+    data = request.get_json()
+    cart = session.get('cart', [])
+    for item in cart:
+        if item['product_id'] == product_id:
+            item['quantity'] = data['quantity']
+            session.modified = True
+    return jsonify({'success': True, 'message': 'Quantity updated'})
