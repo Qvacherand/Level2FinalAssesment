@@ -57,6 +57,13 @@ h1 {
     margin-bottom: 24px;
 }
 
+.h1_products{
+    font-family: var(--font-heading);
+    color: var(--primary);
+    margin-bottom: 24px;
+
+}
+
 /* About section */
 .about {
     background-color: var(--primary);
@@ -215,4 +222,102 @@ footer {
     .featured, .product-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Makes footer stay at bottom */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+/* Cart styles */
+#cart-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cart-item {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    gap: 16px;
+}
+
+.cart-item p {
+    margin: 0;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.quantity-controls button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.quantity-controls button:hover {
+    background: var(--accent);
+}
+
+.quantity-controls span {
+    font-size: 16px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.cart-item .remove-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.cart-item .remove-btn:hover {
+    background: #b91c1c;
+}
+
+/* Cart total */
+.cart-total {
+    max-width: 700px;
+    margin: 16px auto;
+    text-align: right;
+    font-size: 20px;
+}
+
+/* Add to cart button on product cards */
+.product-card button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.product-card button:hover {
+    background-color: var(--accent);
 }

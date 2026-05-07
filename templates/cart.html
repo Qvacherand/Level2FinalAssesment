@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart - Fairway Finds</title>
+    <title>Cart - Tee Time</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
         <nav>
-            <a href="/">Fairway Finds</a>
+            <a href="/">Tee Time</a>
             <a href="/products">Products</a>
             <a href="/about">About</a>
             <a href="/cart">Cart</a>
@@ -17,7 +17,7 @@
     </header>
 
     <main>
-        <h1>Your Cart</h1>
+        <h1 class="h1_products">Your Cart</h1>
 
         {% if cart %}
         <div id="cart-container">
@@ -31,7 +31,7 @@
                     <button onclick="updateQuantity({{ item['product_id'] }}, 'plus')">+</button>
                 </div>
                 <p>Subtotal: $<span id="subtotal-{{ item['product_id'] }}">{{ "%.2f"|format(item['price'] * item['quantity']) }}</span></p>
-                <button onclick="removeItem({{ item['product_id'] }})">Remove</button>
+                <button class="remove-btn" onclick="removeItem({{ item['product_id'] }})">Remove</button>
             </div>
             {% endfor %}
         </div>
@@ -45,7 +45,7 @@
     </main>
 
     <footer>
-        <p>Fairway Finds 2025</p>
+        <p>Tee Time Golf Shop</p>
     </footer>
 
     <script>
