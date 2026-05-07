@@ -13,6 +13,7 @@
             <a href="/">Fairway Finds</a>
             <a href="/products">Products</a>
             <a href="/about">About</a>
+            <a href="/cart">Cart</a>
         </nav>
     </header>
 
@@ -34,12 +35,13 @@
         <h2>Featured Products</h2>
         <div class="featured">
             {% for product in products %}
-            <div class="product-card">
-                <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
-                <p>{{ product['name'] }}</p>
-                <p>${{ product['price'] }}</p>
-                <a href="/product/{{ product['product_id'] }}">View Product</a>
-            </div>
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
+            <p>{{ product['name'] }}</p>
+            <p>${{ product['price'] }}</p>
+            <a href="/product/{{ product['product_id'] }}">View Product</a>
+            <button onclick="addToCart({{ product['product_id'] }})">Add to Cart</button>
+        </div>
             {% endfor %}
         </div>
     
@@ -48,5 +50,24 @@
     <footer>
         <p>Fairway Finds 2025</p>
     </footer>
+
+    <!-- Toast notification -->
+<div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#2d7a2d; color:white; padding:12px 24px; border-radius:8px; font-size:16px;">
+    Added to cart!
+</div>
+
+<script>
+    function addToCart(productId) {
+        fetch('/cart/add/' + productId, { method: 'POST' })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                let toast = document.getElementById('toast')
+                toast.style.display = 'block'
+                setTimeout(() => { toast.style.display = 'none' }, 2000)
+            }
+        })
+    }
+</script>
 </body>
 </html>

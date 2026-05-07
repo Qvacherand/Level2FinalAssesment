@@ -20,32 +20,26 @@
         <h1>Your Cart</h1>
 
         {% if cart %}
-        <div class="cart-items" id="cart-container">
-            {% for item in cart %}
+        <div id="cart-container">
+            {% for key, item in cart.items() %}
             <div class="cart-item" id="item-{{ item['product_id'] }}">
                 <p>{{ item['name'] }}</p>
                 <p>${{ item['price'] }}</p>
-
-                <!-- Quantity controls -->
                 <div class="quantity-controls">
-                    <button onclick="updateQuantity({{ item['product_id'] }}, {{ item['quantity'] - 1 }})">-</button>
+                    <button onclick="updateQuantity({{ item['product_id'] }}, 'minus')">-</button>
                     <span id="qty-{{ item['product_id'] }}">{{ item['quantity'] }}</span>
-                    <button onclick="updateQuantity({{ item['product_id'] }}, {{ item['quantity'] + 1 }})">+</button>
+                    <button onclick="updateQuantity({{ item['product_id'] }}, 'plus')">+</button>
                 </div>
-
-                <p>Subtotal: $<span id="subtotal-{{ item['product_id'] }}">{{ item['price'] * item['quantity'] }}</span></p>
-
-                <!-- Remove button -->
+                <p>Subtotal: $<span id="subtotal-{{ item['product_id'] }}">{{ "%.2f"|format(item['price'] * item['quantity']) }}</span></p>
                 <button onclick="removeItem({{ item['product_id'] }})">Remove</button>
             </div>
             {% endfor %}
         </div>
-
-        <h2>Total: $<span id="cart-total">{{ total }}</span></h2>
+        <h2>Total: $<span id="cart-total">{{ "%.2f"|format(total) }}</span></h2>
         <a href="/products" class="btn">Continue Shopping</a>
 
         {% else %}
-        <p id="empty-message">Your cart is empty.</p>
+        <p>Your cart is empty.</p>
         <a href="/products" class="btn">Shop Now</a>
         {% endif %}
     </main>
@@ -55,64 +49,53 @@
     </footer>
 
     <script>
-        // Removes an item from the cart without refreshing the page
+        // Removes an item from cart without refreshing
         function removeItem(productId) {
-            fetch('/cart/remove/' + productId, {
-                method: 'POST'
-            })
-            .then(response => response.json())
+            fetch('/cart/remove/' + productId, { method: 'POST' })
+            .then(r => r.json())
             .then(data => {
                 if (data.success) {
-                    // Remove the item from the page
                     document.getElementById('item-' + productId).remove()
-                    updateTotal()
+                    recalcTotal()
                 }
             })
         }
 
-        // Updates the quantity of an item without refreshing the page
-        function updateQuantity(productId, newQuantity) {
-            if (newQuantity < 1) {
-                removeItem(productId)
-                return
-            }
-            fetch('/cart/update/' + productId, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({quantity: newQuantity})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update quantity and subtotal on the page
-                    document.getElementById('qty-' + productId).textContent = newQuantity
-                    updateTotal()
-                }
-            })
-        }
+// Updates quantity without refreshing
+function updateQuantity(productId, direction) {
+    let qtyEl = document.getElementById('qty-' + productId)
+    let currentQty = parseInt(qtyEl.textContent)
+    let newQty = direction === 'plus' ? currentQty + 1 : currentQty - 1
 
-        // Recalculates the total price from all items on the page
-        function updateTotal() {
+    if (newQty < 1) {
+        removeItem(productId)
+        return
+    }
+
+    fetch('/cart/update/' + productId, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quantity: newQty })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            let subtotalEl = document.getElementById('subtotal-' + productId)
+            let price = parseFloat(subtotalEl.textContent) / currentQty
+            qtyEl.textContent = newQty
+            subtotalEl.textContent = (price * newQty).toFixed(2)
+            recalcTotal()
+        }
+    })
+}
+
+        // Recalculates total price
+        function recalcTotal() {
             let total = 0
-            document.querySelectorAll('.cart-item').forEach(item => {
-                let productId = item.id.replace('item-', '')
-                let qty = parseInt(document.getElementById('qty-' + productId).textContent)
-                let subtotal = parseFloat(document.getElementById('subtotal-' + productId).textContent)
-                let price = subtotal / qty
-                let newSubtotal = price * qty
-                document.getElementById('subtotal-' + productId).textContent = newSubtotal.toFixed(2)
-                total += newSubtotal
+            document.querySelectorAll('[id^="subtotal-"]').forEach(el => {
+                total += parseFloat(el.textContent)
             })
             document.getElementById('cart-total').textContent = total.toFixed(2)
-
-            // Show empty message if cart is empty
-            if (document.querySelectorAll('.cart-item').length === 0) {
-                document.getElementById('cart-container').innerHTML = ''
-                document.querySelector('h2').remove()
-                let empty = document.createElement('p')
-                empty.textContent = 'Your cart is empty.'
-                document.querySelector('main').appendChild(empty)
-            }
         }
     </script>
 </body>

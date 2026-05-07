@@ -12,6 +12,7 @@
             <a href="/">Fairway Finds</a>
             <a href="/products">Products</a>
             <a href="/about">About</a>
+            <a href="/cart">Cart</a>
         </nav>
     </header>
 <!--link products to database -->
@@ -23,6 +24,22 @@
             <p class="keywords">{{ product['keywords'] }}</p>
             <p>Brand: {{ product['brand_name'] }}</p>
             <p>Category: {{ product['category_name'] }}</p>
+            <button onclick="addToCart({{ product['product_id'] }})">Add to Cart</button>
+
+<script>
+    // Adds a product to the cart without refreshing the page
+    function addToCart(productId) {
+        fetch('/cart/add/' + productId, {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Added to cart!')
+            }
+        })
+    }
+</script>
             <a href="/products" class="btn">Back to Products</a>
         </div>
     </main>
