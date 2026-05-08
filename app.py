@@ -89,6 +89,8 @@ def product_detail(product_id):
         JOIN categories ON products.category_id = categories.category_id
         WHERE products.product_id = ?
     ''', [product_id], one=True)
+    if product is None:
+        return render_template('404.html'), 404
     return render_template('product_detail.html', product=product)
 
 # View cart

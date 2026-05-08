@@ -17,29 +17,32 @@
     </header>
 <!--link products to database -->
     <main>
-        <div class="product-detail">
+        <div class="product-card">
             <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
-            <h1>{{ product['name'] }}</h1>
+            <h1 class="h1_products">{{ product['name'] }}</h1>
             <p class="price">${{ product['price'] }}</p>
-            <p class="keywords">{{ product['keywords'] }}</p>
             <p>Brand: {{ product['brand_name'] }}</p>
             <p>Category: {{ product['category_name'] }}</p>
             <button onclick="addToCart({{ product['product_id'] }})">Add to Cart</button>
 
-<script>
-    // Adds a product to the cart without refreshing the page
-    function addToCart(productId) {
-        fetch('/cart/add/' + productId, {
-            method: 'POST'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Added to cart!')
-            }
-        })
-    }
-</script>
+    <!-- Toast notification -->
+    <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#2d7a2d; color:white; padding:12px 24px; border-radius:8px; font-size:16px;">
+        Added to cart!
+    </div>
+    
+    <script>
+        function addToCart(productId) {
+            fetch('/cart/add/' + productId, { method: 'POST' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    let toast = document.getElementById('toast')
+                    toast.style.display = 'block'
+                    setTimeout(() => { toast.style.display = 'none' }, 2000)
+                }
+            })
+        }
+    </script>
             <a href="/products" class="btn">Back to Products</a>
         </div>
     </main>
