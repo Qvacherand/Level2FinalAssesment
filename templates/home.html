@@ -1,13 +1,22 @@
+<!--
+    Tee Time Golf Store
+    File: home.html
+    Author: Quentin Vacherand
+    Date: May 2026
+    Purpose: home page showing featured products and store info
+-->
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en">
 <head>
+    <!-- page setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Tee Time</title>
+    <title>Tee Time Golf Store</title>
+    <!-- links to stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <!-- nav bar -->
     <header>
         <nav>
             <a href="/">Tee Time</a>
@@ -18,56 +27,62 @@
     </header>
 
     <main>
-        <!-- about box -->
+        <!-- welcome box -->
         <div class="about">
             <h1>Welcome to Tee Time</h1>
             <p>New Zealand's online golf equipment store. Whether you're a beginner or a seasoned golfer we have everything you need.</p>
         </div>
-    
-        <!-- info box -->
+
+        <!-- store info box -->
         <div class="info">
             <p>Free shipping on orders over $100</p>
             <p>Easy returns within 30 days</p>
-            <p>contact@fairwayfinds.co.nz</p>
+            <p>contact@teetimegolf.co.nz</p>
         </div>
-    
-        <!-- featured products -->
+
+        <!-- featured products pulled from database -->
         <h2>Featured Products</h2>
         <div class="featured">
             {% for product in products %}
-        <div class="product-card">
-            <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
-            <p>{{ product['name'] }}</p>
-            <p>${{ product['price'] }}</p>
-            <a href="/product/{{ product['product_id'] }}">View Product</a>
-            <button onclick="addToCart({{ product['product_id'] }})">Add to Cart</button>
-        </div>
+            <div class="product-card">
+                <!-- product image with alt text for accessibility -->
+                <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
+                <p>{{ product['name'] }}</p>
+                <p>${{ product['price'] }}</p>
+                <a href="/product/{{ product['product_id'] }}">View Product</a>
+                <!-- add to cart button uses javascript fetch so page doesnt reload -->
+                <button onclick="addToCart({{ product['product_id'] }})">Add to Cart</button>
+            </div>
             {% endfor %}
         </div>
-    
+
         <a href="/products" class="btn">View All Products</a>
     </main>
+
+    <!-- footer -->
     <footer>
         <p>Tee Time Golf Shop</p>
     </footer>
 
-    <!-- Toast notification -->
-<div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#000000; color:white; padding:12px 24px; border-radius:8px; font-size:16px;">
-    Added to cart!
-</div>
+    <!-- toast notification for add to cart -->
+    <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#000000; color:white; padding:12px 24px; border-radius:8px; font-size:16px;">
+        Added to cart!
+    </div>
 
-<script>
-    function addToCart(productId) {
-        fetch('/cart/add/' + productId, { method: 'POST' })
-        .then(r => r.json())
-        .then(data => {
-            if (data.success) {
-                let toast = document.getElementById('toast')
-                toast.style.display = 'block'
-                setTimeout(() => { toast.style.display = 'none' }, 2000)
-            }
-        })
-    }
-</script>
+    <script>
+        // adds product to cart without refreshing the page
+        function addToCart(productId) {
+            fetch('/cart/add/' + productId, { method: 'POST' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    // shows toast notification for 2 seconds
+                    let toast = document.getElementById('toast')
+                    toast.style.display = 'block'
+                    setTimeout(() => { toast.style.display = 'none' }, 2000)
+                }
+            })
+        }
+    </script>
 </body>
 </html>

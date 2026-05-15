@@ -1,12 +1,22 @@
+<<!--
+    Tee Time Golf Store
+    File: 505.html
+    Author: Quentin Vacherand
+    Date: May 2026
+    Purpose: shows when a user goes to a page that doesnt exist
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- page setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Server Error - Tee Time</title>
+    <title>Page Not Found - Tee Time</title>
+    <!-- links to stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <!-- nav bar -->
     <header>
         <nav>
             <a href="/">Tee Time</a>
@@ -16,8 +26,16 @@
         </nav>
     </header>
 
+    <!-- main content -->
     <main>
-        <h1>500 - Server Error</h1>
-        <p>Something went wrong on our end. Please try again later.</p>
-        <a href="/" class="btn">Go back home</a>
+        <h1 class="h1_products">505 - Server error</h1>
+        <p>Sorry something went wrong on our end</p>
+        <a href="/">Go back home</a>
     </main>
+
+    <!-- footer -->
+    <footer>
+        <p>Tee Time Golf Shop</p>
+    </footer>
+</body>
+</html>

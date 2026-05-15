@@ -1,12 +1,18 @@
-"""Sets up the Fairway Finds database with tables and sample data."""
-
+"""
+Tee Time Golf Store Database Setup
+File: setup_db.py
+Author: Quentin Vacherand
+Date: May 2026
+Purpose: Creates the database tables and inserts all product category and brand data
+"""
+# imports
 import sqlite3
 
-# Connect to the database
+# connects to database
 conn = sqlite3.connect('/Users/quentin/Documents/GitHub/Level2FinalAssesment/database/fairway.db')
 cursor = conn.cursor()
 
-# Creates Categories table
+# categories table
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS categories (
         category_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,7 +20,7 @@ cursor.execute('''
     )
 ''')
 
-# Creates Brands table
+# brands table
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS brands (
         brand_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,7 +29,7 @@ cursor.execute('''
     )
 ''')
 
-# Creates Products table
+# products table
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS products (
         product_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,7 +45,7 @@ cursor.execute('''
     )
 ''')
 
-# Inserts categories
+# adds categories
 cursor.executemany('INSERT INTO categories (name) VALUES (?)', [
     ('Golf Balls',),
     ('Woods',),
@@ -52,7 +58,7 @@ cursor.executemany('INSERT INTO categories (name) VALUES (?)', [
     ('Sets',)
 ])
 
-# Inserts brands
+# adds brands
 cursor.executemany('INSERT INTO brands (name, country) VALUES (?, ?)', [
     ('Titleist', 'USA'),
     ('Callaway', 'USA'),
@@ -63,7 +69,7 @@ cursor.executemany('INSERT INTO brands (name, country) VALUES (?, ?)', [
     ('Generic', 'NZ'),
 ])
 
-# Inserts products
+# adds products
 cursor.executemany('''
     INSERT INTO products (name, price, keywords, image, category_id, brand_id)
     VALUES (?, ?, ?, ?, ?, ?)
@@ -89,6 +95,7 @@ cursor.executemany('''
     ('Iron Set 3-SW', 1200, 'set iron wedge clubs', 'iron.jpg', 9, 5),
 ])
 
+# saves and closes
 conn.commit()
 conn.close()
 print("Database created successfully!")
