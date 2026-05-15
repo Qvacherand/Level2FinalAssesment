@@ -1,10 +1,17 @@
-"""Fairway Finds web application - golf equipment store."""
+"""
+Tee Time Golf Store - Main Flask Application
+File: app.py
+Author: Quentin Vacherand
+Date: May 2026
+Purpose: Handles all routes, database queries, and cart session management
+"""
 
 import sqlite3
 from flask import Flask, render_template, request, g, session, jsonify
 
 app = Flask(__name__)
 app.secret_key = 'fairwayfinds2025'
+import uuid
 app.config['SESSION_TYPE'] = 'filesystem'
 DATABASE = '/Users/quentin/Documents/GitHub/Level2FinalAssesment/database/fairway.db'
 
@@ -33,10 +40,12 @@ def close_connection(_exception):
     if db is not None:
         db.close()
 
-# Home page
 @app.route('/')
 def home():
     """Displays the home page with 3 featured products."""
+    # Generate a unique ID for each visitor if they don't have one
+    if 'user_id' not in session:
+        session['user_id'] = str(uuid.uuid4())
     featured = query_db('SELECT * FROM products LIMIT 3')
     return render_template('home.html', products=featured)
 

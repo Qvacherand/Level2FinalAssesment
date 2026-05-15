@@ -1,4 +1,12 @@
-/* CSS Variables */
+/*
+    Stylesheet for Tee Time Golf Store
+    File: style.css
+    Author: Quentin Vacherand
+    Date: May 2026
+    Purpose: Styles all html pages of the site including layout, colours, and responsive design
+    Features: CSS variables, flexbox, and grid
+*/
+
 :root {
     --primary: #2d7a2d;
     --secondary: #ffffff;
