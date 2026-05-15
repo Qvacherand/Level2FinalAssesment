@@ -1,12 +1,23 @@
+<!--
+    Tee Time Golf Store
+    File: product_detail.html
+    Author: Quentin Vacherand
+    Date: May 2026
+    Purpose: shows full details of a single product including brand and category
+    Feature: uses javascript fetch to add to cart without refreshing
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- page setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ product['name'] }} - Tee Time</title>
+    <!-- links to stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <!-- nav bar -->
     <header>
         <nav>
             <a href="/">Tee Time</a>
@@ -15,27 +26,43 @@
             <a href="/cart">Cart</a>
         </nav>
     </header>
-<!--link products to database -->
+
     <main>
+        <!-- product details pulled from database -->
         <div class="product-card">
+            <!-- product image with alt text for accessibility -->
             <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
             <h1 class="h1_products">{{ product['name'] }}</h1>
             <p class="price">${{ product['price'] }}</p>
+            <!-- brand and category from join query -->
             <p>Brand: {{ product['brand_name'] }}</p>
             <p>Category: {{ product['category_name'] }}</p>
+            <!-- add to cart button -->
             <button onclick="addToCart({{ product['product_id'] }})">Add to Cart</button>
 
-    <!-- Toast notification -->
-    <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#2d7a2d; color:white; padding:12px 24px; border-radius:8px; font-size:16px;">
-        Added to cart!
-    </div>
-    
+            <!-- toast notification for add to cart -->
+            <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#2d7a2d; color:white; padding:12px 24px; border-radius:8px; font-size:16px;">
+                Added to cart!
+            </div>
+
+            <!-- back to products link -->
+            <a href="/products" class="btn">Back to Products</a>
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer>
+        <p>Tee Time Golf Shop</p>
+    </footer>
+
     <script>
+        // adds product to cart without refreshing the page
         function addToCart(productId) {
             fetch('/cart/add/' + productId, { method: 'POST' })
             .then(r => r.json())
             .then(data => {
                 if (data.success) {
+                    // shows toast notification for 2 seconds
                     let toast = document.getElementById('toast')
                     toast.style.display = 'block'
                     setTimeout(() => { toast.style.display = 'none' }, 2000)
@@ -43,12 +70,5 @@
             })
         }
     </script>
-            <a href="/products" class="btn">Back to Products</a>
-        </div>
-    </main>
-
-    <footer>
-        <p>Tee Time Golf Shop</p>
-    </footer>
 </body>
 </html>

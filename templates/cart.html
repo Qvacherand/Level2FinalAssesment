@@ -1,12 +1,23 @@
+<!--
+    Tee Time Golf Store
+    File: cart.html
+    Author: Quentin Vacherand
+    Date: May 2026
+    Purpose: shows cart items and lets users update or remove them
+    Feature: uses javascript fetch so page doesnt reload when cart changes
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- page setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart - Tee Time</title>
+    <!-- links to stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <!-- nav bar -->
     <header>
         <nav>
             <a href="/">Tee Time</a>
@@ -19,37 +30,48 @@
     <main>
         <h1 class="h1_products">Your Cart</h1>
 
+        <!-- shows cart items if cart is not empty -->
         {% if cart %}
         <div id="cart-container">
             {% for key, item in cart.items() %}
+            <!-- individual cart item -->
             <div class="cart-item" id="item-{{ item['product_id'] }}">
                 <p>{{ item['name'] }}</p>
                 <p>${{ item['price'] }}</p>
+
+                <!-- quantity controls -->
                 <div class="quantity-controls">
                     <button onclick="updateQuantity({{ item['product_id'] }}, 'minus')">-</button>
                     <span id="qty-{{ item['product_id'] }}">{{ item['quantity'] }}</span>
                     <button onclick="updateQuantity({{ item['product_id'] }}, 'plus')">+</button>
                 </div>
+
                 <p>Subtotal: $<span id="subtotal-{{ item['product_id'] }}">{{ "%.2f"|format(item['price'] * item['quantity']) }}</span></p>
+
+                <!-- remove item button -->
                 <button class="remove-btn" onclick="removeItem({{ item['product_id'] }})">Remove</button>
             </div>
             {% endfor %}
         </div>
+
+        <!-- cart total -->
         <h2>Total: $<span id="cart-total">{{ "%.2f"|format(total) }}</span></h2>
         <a href="/products" class="btn">Continue Shopping</a>
 
+        <!-- shows if cart is empty -->
         {% else %}
-        <p>Your cart is empty.</p>
+        <p>Your cart is empty</p>
         <a href="/products" class="btn">Shop Now</a>
         {% endif %}
     </main>
 
+    <!-- footer -->
     <footer>
         <p>Tee Time Golf Shop</p>
     </footer>
 
     <script>
-        // Removes an item from cart without refreshing
+        // removes an item from cart without refreshing the page
         function removeItem(productId) {
             fetch('/cart/remove/' + productId, { method: 'POST' })
             .then(r => r.json())
@@ -61,35 +83,37 @@
             })
         }
 
-// Updates quantity without refreshing
-function updateQuantity(productId, direction) {
-    let qtyEl = document.getElementById('qty-' + productId)
-    let currentQty = parseInt(qtyEl.textContent)
-    let newQty = direction === 'plus' ? currentQty + 1 : currentQty - 1
+        // updates quantity without refreshing the page
+        function updateQuantity(productId, direction) {
+            let qtyEl = document.getElementById('qty-' + productId)
+            let currentQty = parseInt(qtyEl.textContent)
+            let newQty = direction === 'plus' ? currentQty + 1 : currentQty - 1
 
-    if (newQty < 1) {
-        removeItem(productId)
-        return
-    }
+            // removes item if quantity goes below 1
+            if (newQty < 1) {
+                removeItem(productId)
+                return
+            }
 
-    fetch('/cart/update/' + productId, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quantity: newQty })
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.success) {
-            let subtotalEl = document.getElementById('subtotal-' + productId)
-            let price = parseFloat(subtotalEl.textContent) / currentQty
-            qtyEl.textContent = newQty
-            subtotalEl.textContent = (price * newQty).toFixed(2)
-            recalcTotal()
+            fetch('/cart/update/' + productId, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quantity: newQty })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    // updates the quantity and subtotal on the page
+                    let subtotalEl = document.getElementById('subtotal-' + productId)
+                    let price = parseFloat(subtotalEl.textContent) / currentQty
+                    qtyEl.textContent = newQty
+                    subtotalEl.textContent = (price * newQty).toFixed(2)
+                    recalcTotal()
+                }
+            })
         }
-    })
-}
 
-        // Recalculates total price
+        // recalculates the total price from all items
         function recalcTotal() {
             let total = 0
             document.querySelectorAll('[id^="subtotal-"]').forEach(el => {

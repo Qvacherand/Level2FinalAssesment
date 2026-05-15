@@ -1,13 +1,22 @@
+<!--
+    Tee Time Golf Store
+    File: about.html
+    Author: Quentin Vacherand
+    Date: May 2026
+    Purpose: tells users about the store and what it sells
+-->
 <!DOCTYPE html>
 <html lang="en">
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>About - Tee Time</title>
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        </head>
+<head>
+    <!-- page setup -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Tee Time</title>
+    <!-- links to stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
 <body>
+    <!-- nav bar -->
     <header>
         <nav>
             <a href="/">Tee Time</a>
@@ -18,20 +27,22 @@
     </header>
 
     <main>
-    <!-- about box -->
+        <!-- welcome box -->
         <div class="about">
             <h1>Welcome to Tee Time</h1>
         </div>
-    <!-- info box -->
+
+        <!-- store info box -->
         <div class="info">
             <h1 class="h1_products">Our Mission</h1>
-            <p>This website is a premium golf shop that sells a wide variety of golf products at really good prices, making sure that high quality gear is accessible to everyone. It is designed for golfers of all levels, including both men and women, whether they are just starting out or have been playing for years. You can find golf clubs, balls, bags, and other important stuff like tees and gloves all in one place. </p>
+            <p>This website is a premium golf shop that sells a wide variety of golf products at really good prices making sure that high quality gear is accessible to everyone. It is designed for golfers of all levels including both men and women whether they are just starting out or have been playing for years. You can find golf clubs balls bags and other important stuff like tees and gloves all in one place.</p>
         </div>
 
-
+        <!-- link to products page -->
         <a href="/products" class="btn">View All Products</a>
     </main>
 
+    <!-- footer -->
     <footer>
         <p>Tee Time Golf Shop</p>
     </footer>

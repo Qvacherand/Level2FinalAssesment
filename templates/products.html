@@ -1,12 +1,23 @@
+<!--
+    Tee Time Golf Store
+    File: products.html
+    Author: Quentin
+    Date: May 2026
+    Purpose: shows all products with search and filter functionality
+    Feature: uses javascript fetch to add to cart without refreshing
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- page setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products - Tee Time</title>
+    <!-- links to stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <!-- nav bar -->
     <header>
         <nav>
             <a href="/">Tee Time</a>
@@ -19,9 +30,11 @@
     <main>
         <h1 class="h1_products">All Products</h1>
 
-     <!-- search and filter bar -->
+        <!-- search and filter form -->
         <form method="GET" action="/products">
+            <!-- search bar -->
             <input type="text" name="search" placeholder="Search products..." value="{{ search }}">
+            <!-- category filter dropdown -->
             <select name="category">
                 <option value="">All Categories</option>
                 {% for category in categories %}
@@ -33,41 +46,47 @@
             <button type="submit">Search</button>
         </form>
 
-    <!-- product display -->
+        <!-- product grid pulled from database -->
         <section class="product-grid">
             {% for product in products %}
-        <div class="product-card">
-            <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
-            <p>{{ product['name'] }}</p>
-            <p>${{ product['price'] }}</p>
-            <a href="/product/{{ product['product_id'] }}">View Product</a>
-            <button onclick="addToCart({{ product['product_id'] }})">Add to Cart</button>
-        </div>
+            <div class="product-card">
+                <!-- product image with alt text for accessibility -->
+                <img src="{{ url_for('static', filename='images/' + product['image']) }}" alt="{{ product['name'] }}">
+                <p>{{ product['name'] }}</p>
+                <p>${{ product['price'] }}</p>
+                <!-- link to product detail page -->
+                <a href="/product/{{ product['product_id'] }}">View Product</a>
+                <!-- add to cart button -->
+                <button onclick="addToCart({{ product['product_id'] }})">Add to Cart</button>
+            </div>
             {% endfor %}
         </section>
     </main>
 
+    <!-- footer -->
     <footer>
         <p>Tee Time Golf Shop</p>
     </footer>
 
-   <!-- Toast notification -->
-<div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#2d7a2d; color:white; padding:12px 24px; border-radius:8px; font-size:16px;">
-    Added to cart!
-</div>
+    <!-- toast notification for add to cart -->
+    <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#2d7a2d; color:white; padding:12px 24px; border-radius:8px; font-size:16px;">
+        Added to cart!
+    </div>
 
-<script>
-    function addToCart(productId) {
-        fetch('/cart/add/' + productId, { method: 'POST' })
-        .then(r => r.json())
-        .then(data => {
-            if (data.success) {
-                let toast = document.getElementById('toast')
-                toast.style.display = 'block'
-                setTimeout(() => { toast.style.display = 'none' }, 2000)
-            }
-        })
-    }
-</script>
+    <script>
+        // adds product to cart without refreshing the page
+        function addToCart(productId) {
+            fetch('/cart/add/' + productId, { method: 'POST' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    // shows toast notification for 2 seconds
+                    let toast = document.getElementById('toast')
+                    toast.style.display = 'block'
+                    setTimeout(() => { toast.style.display = 'none' }, 2000)
+                }
+            })
+        }
+    </script>
 </body>
 </html>
